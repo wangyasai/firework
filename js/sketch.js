@@ -84,11 +84,7 @@ function mousePressed(){
 
 function intro(){
   oneFirework.colLines(1);
-  for(var i = above; i<bottom;i+=10){
-    strokeWeight(5);
-    stroke(20);
-    line(left,i,right,i);
-  } 
+
 
   var angle = map(frameCount,100,150,PI*1.5,PI*3.5);
   noFill();
@@ -131,7 +127,6 @@ function intro(){
     }
   }
 
-  fill(254,82,105,this.alpha);
   oneFirework.display(1);
   oneFirework.move();
   oneFirework.city(1);
@@ -161,21 +156,12 @@ function fireworkStart(){
   } 
   
 
-
-
-  for(var i = above; i<bottom;i+=10){
-    strokeWeight(5);
-    stroke(20);
-    line(left,i,right,i);
-  } 
-
   if(time>0){ 
     for(var i = 0 ; i < 5; i++){
       var lineY = map(i, 0, 5,bottom, above);
       for(var j = left-40; j < right+40; j+=10){
-
-       stroke(150);
-       strokeWeight(0.5);
+       stroke(100);
+       strokeWeight(1);
        line(j,lineY,j+6,lineY);
      }
      textAlign(RIGHT);
@@ -281,12 +267,11 @@ class Firework{
   colLines(){
     stroke(100);
     strokeWeight(1);
-    line(this.x,this.y,this.x,bottom);
+    for(var i = bottom ; i >this.y ; i-=10){
+        line(this.x,i,this.x,i-7);
+    }
   }
 
-  // rowLine(){
-
-  // }
 
   //show 2017 / 2018
   infor(j){
