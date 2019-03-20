@@ -10,7 +10,7 @@ var avg = [];
 var left,right,above,bottom;
 var s;
 let fireworks = [];
-var r = [];
+let r = [];
 let oneFirework;
 let firework17;
 let firework18;
@@ -18,6 +18,7 @@ var time;
 var s;
 var a = 0;
 var alpha = 255;
+
 
 function preload(){
   data = loadTable("data/data.csv", 'csv');
@@ -43,8 +44,10 @@ function setup(){
 
   for(var j = 1; j < cols; j++){
     sum[j] = 0;
+    r[j]=[];
     for(var i = 3; i < rows; i++){
       sum[j] += data.getNum(i,j);
+      r[j][i]= 0;
     }
     avg[j] = sum[j]/24;
     posX[j] = map(int((j+1)/2), 1, 50, left, right);
@@ -80,7 +83,7 @@ function mousePressed(){
 
 
 function intro(){
-  oneFirework.lines(1);
+  oneFirework.colLines(1);
   for(var i = above; i<bottom;i+=10){
     strokeWeight(5);
     stroke(20);
@@ -140,10 +143,10 @@ function intro(){
    text("2018年数据",width/2+100,y[2]+105);
  }
 
-  if(frameCount>300){
-    fill(255,510*sin(frameCount/10));
-    text("点击屏幕看城市烟花秀",width/2,height*0.7);
-  } 
+ if(frameCount>300){
+  fill(255,510*sin(frameCount/10));
+  text("点击屏幕看城市烟花秀",width/2,height*0.7);
+} 
 }
 
 
@@ -153,9 +156,11 @@ function fireworkStart(){
   //dot line
   for(var j = 1; j < cols; j++){
     if(j <= time){
-      fireworks[j].lines(j);
+      fireworks[j].colLines(j);
     }
   } 
+  
+
 
 
   for(var i = above; i<bottom;i+=10){
@@ -164,15 +169,31 @@ function fireworkStart(){
     line(left,i,right,i);
   } 
 
+  if(time>0){ 
+    for(var i = 0 ; i < 5; i++){
+      var lineY = map(i, 0, 5,bottom, above);
+      for(var j = left-40; j < right+40; j+=10){
+
+       stroke(150);
+       strokeWeight(0.5);
+       line(j,lineY,j+6,lineY);
+     }
+     textAlign(RIGHT);
+     textSize(14);
+     text(50*i,left-40,lineY);
+   }
+ }
+
   //fireworks
   for(var j = 1; j < cols; j++){
     if(j<= time){ 
       fireworks[j].move();
-      fireworks[j].display(j);
+      fireworks[j].display(j);   
       fireworks[j].city(j);
-      fireworks[j].infor(j);     
-    }
+      fireworks[j].infor(j);   
+    }  
   }
+  check();
 }
 
 
@@ -183,47 +204,56 @@ class Firework{
     this.tY = targetY;
     this.easing = 0.05;
     this.w = 80;
-    this.r = r; 
+    this.r = 0; 
     this.alpha = 255;  
   }
 
 
   display(j){  
-    for(var i = 2; i < rows; i++ ){
-      var r = map(data.getNum(i,j), 0, 300, 0, this.w);
+    for(var i = 3; i < rows; i++ ){
       push();
       translate(this.x,this.y);     
-      // this.alpha += (255-this.alpha)*this.easing;   
-
       noStroke();
 
       var n ;
       rotate(-PI-TWO_PI/24*(i-2));  
       if(width>1000){
-       n = 1;
-     }else{
-       n = 2;
-     }
-     this.r += (data.getNum(i,j)/n-this.r)*this.easing/2;
-     var offset = map(data.getNum(i,j),0,300,0,3);
-     if ((j)%2==0) {
-       fill(255,222,85,this.alpha);//黄色 2018
-     } else if ((j)%2==1) {
-       fill(254,82,105,this.alpha);//红色 2017
-     }
-     beginShape();
-     vertex(0,0);
-     vertex(-offset ,r/n);
-     vertex(offset ,r/n);
-     endShape(CLOSE);
-     arc(0,r/n,offset*2,offset*2,PI*2,PI*3);
-       // ellipse(0,r/n,offset*2);
-       pop();        
-     }    
-   }
+        n = 1.9;
+      }else{
+        n = 3;
+      }
+
+      r[j][i]+= (data.getNum(i,j)/n-r[j][i])*this.easing/2;
+      this.r = r[j][i];
+      var offset = map(data.getNum(i,j),0,300,0,3);
+      if ((j)%2==0) {
+        fill(255,222,85,this.alpha);//黄色 2018
+      } else if ((j)%2==1) {
+        fill(254,82,105,this.alpha);//红色 2017
+      }
+
+      if(time>j+ (24-i) && a==1){
+        beginShape();
+        vertex(0,0);
+        vertex(-offset ,this.r/n);
+        vertex( offset ,this.r/n);
+        endShape(CLOSE);
+        arc(0,this.r/n,offset*2,offset*2,PI*2,PI*3);
+      }else if(frameCount >100+ (24-i) && a==0){
+        beginShape();
+        vertex(0,0);
+        vertex(-offset ,this.r/n);
+        vertex( offset ,this.r/n);
+        endShape(CLOSE);
+        arc(0,this.r/n,offset*2,offset*2,PI*2,PI*3);
+      }
+
+      pop();        
+    }    
+  }
 
 
-   move(){
+  move(){
     this.y += (this.tY- this.y)*this.easing;
   }
 
@@ -248,36 +278,70 @@ class Firework{
 
 
   // city connect firework 
-  lines(){
+  colLines(){
     stroke(100);
     strokeWeight(1);
     line(this.x,this.y,this.x,bottom);
   }
 
+  // rowLine(){
+
+  // }
 
   //show 2017 / 2018
   infor(j){
-   fill(255,222,85);
-   ellipse(width*0.8,height*0.1,20,20)
-   fill(254,82,105);
-   ellipse(width*0.8+30,height*0.1,20,20)
-   if(dist(mouseX,mouseY,width*0.8,height*0.1)<10){
-    if ((j)%2==0) {
-     this.alpha = 255;
-   } else if ((j)%2==1) {
-    this.alpha = 50;
+    if(dist(mouseX,mouseY,right-30,above+10)<10){
+      if ((j)%2==1) {
+        this.alpha = 255;
+        fill(254,82,105);
+        noStroke();
+        ellipse(right-30,above+10,20,20)
+      } else if ((j)%2==0) {
+        this.alpha = 50;
+        stroke(255,222,85);
+        strokeWeight(2);
+        noFill();
+        ellipse(right,above+10,20,20)
+      }
+    }else if(dist(mouseX,mouseY,right,above+10)<10){
+      if ((j)%2==1) {
+        this.alpha = 50;
+        stroke(254,82,105);
+        strokeWeight(2);
+        noFill();
+        ellipse(right-30,above+10,20,20)
+      }else if ((j)%2==0) {
+        this.alpha = 255;
+        noStroke();
+        fill(255,222,85);
+        ellipse(right,above+10,20,20)
+      }
+    }else{
+      this.alpha = 255;
+      noFill();
+      strokeWeight(2);
+      stroke(254,82,105);
+      ellipse(right-30,above+10,20,20)
+      stroke(255,222,85);
+      ellipse(right,above+10,20,20)
+    }
   }
-}else if(dist(mouseX,mouseY,width*0.8+30,height*0.1)<10){
- if ((j)%2==0) {
-   this.alpha = 50;
- } else if ((j)%2==1) {
-  this.alpha = 255;
+
+
 }
-}else{
-  this.alpha = 255;
+
+function check(){
+  var text17 = "查看2017";
+  var text18 = "查看2018";
+  textSize(14);
+  fill(200);
+  noStroke();
+  for (var i = 0; i < text17.length; i++) { 
+    text(text17.charAt(i), right-30,above+40+(15)*i);
+    text(text18.charAt(i), right,above+40+(15)*i);
+  }
 }
-}
-}
+
 
 
 
