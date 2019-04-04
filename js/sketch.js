@@ -126,7 +126,7 @@ function setup(){
     right = width*0.9;
   }
   above = height*0.2;
-  bottom = height*0.85;
+  bottom = height*0.8;
 
 
 
@@ -196,23 +196,37 @@ function draw(){
   if(a==1){ 
     drawBtn(btnY) ;
     fireworkStart();
-   image(logo,right-100,80,120,25);
+    image(logo,right-55,90,120,25);
     
-      fill(120);
-      ellipse(left-20,100,25,25);
-       imageMode(RIGHT);
-     
-       fill(33);
-      textSize(20);
-      textAlign(CENTER);
-      text("?",left-20,100);
-     if(dist(mouseX,mouseY,left-20,90)<=20 ){
+    fill(180);
+    ellipse(left-20,100,25,25);
+    imageMode(RIGHT);
+
+    fill(33);
+    textSize(20);
+    textAlign(CENTER);
+    text("?",left-20,100);
+
+    fill(120);
+    textAlign(LEFT);
+    textSize(14);
+    noStroke();
+    text("数据来源：全国城市空气质量实时发布平台",left+20,bottom+110);
+    text("注：由于烟花爆竹燃烧影响的主要是PM2.5，而CO（一氧化碳）受烟花燃烧的影响非常小，因此PM2.5与CO的比值可以排除气象因素的影响。",left+20,bottom+130);
+    if(dist(mouseX,mouseY,left-20,90)<=20 ){
       fill(33,220);
       rect(0,0,width,height);
       imageMode(CENTER);
       image(legend,width/2,height/2,400,600);
-     }
+      noFill();
+      stroke(255);
+      rectMode(CENTER);
+      rect(width/2,height/2,400,600);
+    }
+
   }  
+
+
 }
 
 
@@ -316,15 +330,15 @@ if (mouseX > width/2-2*btnW && mouseX< width/2-1*btnW && mouseY > btnY && mouseY
 
 
   txtYear18 = txtBlack;
-
   txtYear17 = txtWhite;
-  
   txtRankAll = txtWhite;
   txtRank17 = txtWhite;
   txtRank18 = txtBlack;
   txtCompare = txtWhite;
 } else if (mouseX > width/2+2*btnW && mouseX < width/2+3*btnW&&mouseY> btnY && mouseY < btnY + btnH) {
   button = "d";
+  count17=0;
+  count18=0;
   btnRank17 = nullColor;
   btnRank18 = nullColor;
   btnRankAll = nullColor;
@@ -341,7 +355,7 @@ if (mouseX > width/2-2*btnW && mouseX< width/2-1*btnW && mouseY > btnY && mouseY
 
 } 
 
-if (mouseX > width/2-5*btnW && mouseX < width/2-4*btnW&&mouseY> btnY && mouseY < btnY + btnH) {
+if (mouseX > width/2-5*btnW && mouseX < width/2-4*btnW&&mouseY> btnY && mouseY < btnY + btnH && button == "a") {
   count17++;
   if(count17%2==0){
     btnYear17 = nullColor;
@@ -350,7 +364,7 @@ if (mouseX > width/2-5*btnW && mouseX < width/2-4*btnW&&mouseY> btnY && mouseY <
     btnYear17 = redColor;
     txtYear17 = txtBlack;
   }
-}else if (mouseX > width/2-4*btnW && mouseX < width/2-3*btnW&&mouseY> btnY && mouseY < btnY + btnH) {
+}else if (mouseX > width/2-4*btnW && mouseX < width/2-3*btnW&&mouseY> btnY && mouseY < btnY + btnH && button == "a") {
   count18++;
   if(count18%2==0){
    btnYear18 = nullColor;
@@ -381,14 +395,14 @@ function intro(){
   }
 
 
-    fill(255);
-    textSize(16);
-    textAlign(CENTER);
-    text("每一根柱子代表每个时间段PM2.5/CO的值",width/2,above);
-    noFill();
-    stroke(255);
-    strokeWeight(1);
-    rect(width/2 -180, above-25,360,35);
+  fill(255);
+  textSize(16);
+  textAlign(CENTER);
+  text("每一根柱子代表每个时间段PM2.5/CO的值",width/2,above);
+  noFill();
+  stroke(255);
+  strokeWeight(1);
+  rect(width/2 -180, above-25,360,35);
 
   fill(255);  
   noStroke();
@@ -615,8 +629,6 @@ function fireworkStart(){
      alpha18 = 50;
      alpha17 = 50;
 
-     
-
       if(y17[j]<y18[j]){ //17年小于18年
         fill(255);  
         var r_ = map(windowWidth,0,2000,0,4);
@@ -643,11 +655,11 @@ function fireworkStart(){
     if(button == "b"){    
       alpha17 = 255;  
       alpha18 =50;
-      this.tX = map(int((temp18[j]+52)), 1, 50, left, right);
+      this.tX = map(int((temp17[j]+52)), 1, 50, left, right);
     }else if(button == "c"){    
       alpha18 = 255;  
       alpha17 = 50;  
-      this.tX = map(int((temp17[j]+52)), 1, 50, left, right);
+      this.tX = map(int((temp18[j]+52)), 1, 50, left, right);
     }else if(button == "a"){ 
       this.tX = map(int(j+1), 1, 50, left, right);
       if(count17%2==1 && count18%2 == 0){       
