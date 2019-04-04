@@ -12,123 +12,39 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.min.js"></script>
+
+
   <script src="js/p5.min.js"></script>
   <script src="js/p5.dom.min.js"></script>
   <script src="js/p5.sound.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
   <title>放烟花啦</title>
 
-  <style>
-  *{
-    margin: 0;
-    padding: 0;
-  }
-
-  html,body{
-    width: 100%;
-  }
-
-  .page{
-    width: 100%;
-    height: 100vh;
-  }
-
-  .page-cover{
-    background-color: rgb(20,20,20);
-    text-align: center;
-    color: white;
-    padding-top: 20%;
-  }
-
-  .canvas-box{
-    overflow-y:hidden;
-    padding:0;
-  }
 
 
 
-
-  @media screen and (max-width: 2000px ) {
-    .page-cover .lead{
-      font-size: 18px;
-      font-weight: 100;
-      line-height: 40px;
-      padding-top: 70px;
-
-    }
-
-    .title_pc{
-      width:40%;
-      height: 100px;
-      display: none;
-    }
-    .firework{
-      width:400%;
-      padding-top: 5%;
-      padding-left: 10%;
-      z-index:1;
-      position:absolute;
-    }
-     .firework2{
-      width:400%;
-      padding-top: 10%;
-      padding-left: 50%;
-      z-index:1;
-      scale:2;
-      position:absolute;
-    }
-  }
-
-  @media screen and (max-width: 750px) {
-    .page-cover .lead{
-      font-size: 14px;
-      font-weight: 100;
-      line-height: 30px;
-      padding-top: 5%;
-      padding-left: 8%;
-      padding-right: 8%;
-      text-align: center;
-    }
-
-    .title_mb{
-      width: 70%;
-      padding-top: 45%;
-      display: none;
-    }
-
-    .firework{
-      width:70%;
-      padding-top: 15%;
-      padding-left: 10%;
-      z-index:1;
-      position:absolute;
-    }
-  }
-
-
-
-</style>
 </head>
-<body>
+<body> <script src="js/sketch.js"></script>
   <div class="container">
-    <div class ="firework"><iframe src="images/firework1.svg"  frameborder="0"></iframe></div>
-    <div class ="firework2"><iframe src="images/firework1.svg"  frameborder="0"></iframe></div>
-    <div class="page page-cover">    
-      <iframe class="title_pc" src="images/title_pc.svg"  frameborder="0"></iframe>
-      <iframe class="title_mb" src="images/title_mb.svg"  frameborder="0"></iframe>
-      <div class="lead">     
-       <p class = "lead_mb">烟花爆竹对空气的影响有多大？禁放令的效果又如何？澎湃新闻梳理了50座城市过往两年的烟花爆竹管理政策，
-       并对比了各座城市除夕夜的空气质量。</p>
-       <p class = "lead_pc">烟花爆竹对空气的影响有多大？禁放令的效果又如何？</p> 
-       <p class = "lead_pc">澎湃新闻梳理了50座城市过往两年的烟花爆竹管理政策，</p>
-       <p class = "lead_pc">并对比了各座城市除夕夜的空气质量。</p>
-     </div>
-     <!-- <button type = "button">Click me></button> -->
-   </div>
 
-   <div class="canvas-box" >
-     <script src="js/sketch.js"></script>
+
+   <div class ="firework"><iframe src="images/firework1.svg"  frameborder="0"></iframe></div>
+   <div class ="firework2"><iframe src="images/firework1.svg"  frameborder="0"></iframe></div>
+   <div class ="firework3"><iframe src="images/firework1.svg"  frameborder="0"></iframe></div>
+   <div class="page page-cover">    
+    <iframe class="title_pc" src="images/title_pc.svg"  frameborder="0"></iframe>
+    <iframe class="title_mb" src="images/title_mb.svg"  frameborder="0"></iframe>
+    <div class="lead">     
+     <p class = "lead_mb">烟花爆竹对空气的影响有多大？禁放令的效果又如何？澎湃新闻梳理了50座城市过往两年的烟花爆竹管理政策，
+     并对比了各座城市除夕夜的空气质量。</p>
+     <p class = "lead_pc">烟花爆竹对空气的影响有多大？禁放令的效果又如何？</p> 
+     <p class = "lead_pc">澎湃新闻梳理了50座城市过往两年的烟花爆竹管理政策，</p>
+     <p class = "lead_pc">并对比了各座城市除夕夜的空气质量。</p>
+     <img class = "logo" scr="images/logo.png"></div>
    </div>
+  
  </div>
+</div>
 </body>
 
 
@@ -146,10 +62,10 @@
      $(".lead_pc").show();
      $(".title_mb").hide();
      $(".lead_mb").hide();
-     
    }
  });
 </script>
+
 
 <script type="text/javascript">
   $("#defaultCanvas0").removeAttr("width");
@@ -157,14 +73,7 @@
   $(window).scroll(function() {
     var window_height = $(window).height();
     var body_scroll_height = $(window).scrollTop();
+  });
+</script>
 
-    if(body_scroll_height > window_height){
-      console.log("划出了一屏，执行js");   
-         // $(".canvas-box").hide();
-       }else{
-        console.log("未划出了一屏，执行js");
-       // $(".canvas-box").hide();
-     }
-   });
- </script>
- </html>
+</html>
