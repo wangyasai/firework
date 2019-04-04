@@ -95,13 +95,14 @@ var btnH = 30;
 var count17 = 1;
 var count18 = 1;
 
-var logo;
+var logo,legend;
 
 function preload(){
   data17 = loadTable("data/2017.csv", 'csv');
   data18 = loadTable("data/2018.csv", 'csv');
   data19 = loadTable("data/2019.csv", 'csv');
   logo = loadImage("images/logo.png","png");
+  legend = loadImage("images/legend.jpg","jpg");
 }
 
 
@@ -195,12 +196,23 @@ function draw(){
   if(a==1){ 
     drawBtn(btnY) ;
     fireworkStart();
-    imageMode(RIGHT);
-     image(logo,right-100,80,120,25);
+   image(logo,right-100,80,120,25);
+    
+      fill(120);
+      ellipse(left-20,100,25,25);
+       imageMode(RIGHT);
+     
+       fill(33);
+      textSize(20);
+      textAlign(CENTER);
+      text("?",left-20,100);
+     if(dist(mouseX,mouseY,left-20,90)<=20 ){
+      fill(33,220);
+      rect(0,0,width,height);
+      imageMode(CENTER);
+      image(legend,width/2,height/2,400,600);
+     }
   }  
-
- 
-
 }
 
 
@@ -210,6 +222,7 @@ function drawBtn(btnY) {
   noStroke();
   fill(255);
   textAlign(RIGHT);
+  textSize(16);
   text("显示年份",width/2-5*btnW-4,btnY+btH-5);
   text("排序",width/2-2*btnW-4,btnY+btH-5);
   stroke(220);
