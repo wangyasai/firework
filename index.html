@@ -64,6 +64,8 @@
      $(".title_mb").hide();
      $(".lead_mb").hide();
    }
+
+
  });
 </script>
 
@@ -74,6 +76,11 @@
   $(window).scroll(function() {
     var window_height = $(window).height();
     var body_scroll_height = $(window).scrollTop();
+    console.log(window_height,body_scroll_height)
+    if(body_scroll_height > window_height/1.5){
+      console.log("asdjflasjfd"); 
+      $(window).scrollTop(window_height);
+    }
   });
 </script>
 
